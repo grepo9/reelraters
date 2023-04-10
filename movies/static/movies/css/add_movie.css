@@ -1,0 +1,14 @@
+.movie_image {
+    width: 400px; 
+    height: 600px; 
+    float: left; 
+    border: 1px solid black;
+    opacity: 1;
+    transition: .5s ease;
+    backface-visibility: hidden;
+    object-fit: cover;
+    vertical-align: middle;
+}
+.movie_image:hover {
+    opacity: 0.3;
+}

@@ -1,0 +1,51 @@
+.poster_grid {
+    display: grid; 
+    grid-template-columns: repeat(3,1fr); 
+    grid-gap: 0px; 
+    text-align: center; 
+    font-family: 'Avenir', sans-serif;
+    align-items: center;
+    justify-content: center;
+    vertical-align: top;
+}
+.grids {
+    padding: 10px
+}
+.stars {
+    color: gold;
+    text-align: center;
+}
+
+body {
+    background-color: #212121;
+}
+
+.movie_poster {
+    width: 400px;
+    height: 500px;
+    object-fit: cover;
+    vertical-align: middle;
+}
+
+h2 {
+    color: #E0E0E0;
+}
+
+.card-img-top {
+    object-fit: cover;
+    height: 700px; /* adjust the height as per your requirement */
+}
+
+.custom-body {
+    background-color: #212121;
+}
+
+.card-title-custom {
+    color: #E0E0E0;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}

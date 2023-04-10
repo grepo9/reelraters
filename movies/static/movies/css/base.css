@@ -1,0 +1,23 @@
+.fa-user {
+    color: white;
+}
+
+.navbar-expand-lg {
+    background-color: #424242;
+}
+
+.navbar-nav > .active > a {
+    color: white;
+}
+
+.navbar-nav li a {
+    color: #9E9E9E;
+}
+
+.navbar-brand {
+    color: #9E9E9E;
+}
+
+.navbar-brand:hover {
+    color: #9E9E9E;
+}

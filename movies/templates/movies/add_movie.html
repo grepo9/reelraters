@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static%}
+
+{% block content %}
+  <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+  <link rel="stylesheet" type="text/css" href="{% static 'movies/css/add_movie.css' %}">
+
+  <br>
+  <form method="POST" style="text-align: center; font-family: 'Open Sans';">
+    {% csrf_token %}
+    <input type="text" name="title" style="width: 100em; height: 5em; font-size: 1em; text-align: center;" placeholder="Search for a movie title here" required>
+    <br>
+    <label for="year">Year:</label>
+    <input type="number" name="year" placeholder="Optional">
+    <br>
+    <button type="submit" name="show_movies"> Show movies </button>
+  </form>
+  <br>
+
+  {% if posters %}
+    {% for poster in posters %}
+    <body style="text-align: center;">
+    <form method="POST" style="display: inline;">
+      {% csrf_token %}
+      <button type="submit" name="movie--{{forloop.counter0}}"><img src="{{poster}}" class="movie_image" alt="movieposter" onerror="this.src='{% static 'movies/img/stock.jpg' %}'"></button>
+    </form>
+    </body>
+    {% endfor %}
+  {% else %}
+    {% if request.method == "POST" %}
+      <h1 style="text-align: center;">No movies found!</h1>
+    {% endif %}
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,26 @@
+.card-img-top {
+    object-fit: cover;
+    height: 700px; /* adjust the height as per your requirement */
+}
+body {
+    background-color: #212121;
+}
+  
+h1 {
+    color: #E0E0E0;
+}
+
+.custom-body {
+    background-color: #212121;
+}
+
+.card-title-custom {
+    color: #E0E0E0;
+}
+
+button {
+    border: none;
+    padding: 0;
+    background-color: transparent;
+}
+  
