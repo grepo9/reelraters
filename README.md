@@ -1,3 +1,4 @@
-# movielister
+# Reel Raters
 
-DJANGO PROJECT THAT ALLOWS USERS TO ADD MOVIES AND RATE THEM TO A PERSONAL LIST
+Django Project that allows users to add movies and rate them to a personal list, pulling from the IMDb API
+Currently not hosted at the moment, will be up soon!
