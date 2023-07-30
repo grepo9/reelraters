@@ -22,7 +22,7 @@
     <body style="text-align: center;">
     <form method="POST" style="display: inline;">
       {% csrf_token %}
-      <button type="submit" name="movie--{{forloop.counter0}}"><img src="{{poster}}" class="movie_image" alt="movieposter" onerror="this.src='{% static 'movies/img/stock.jpg' %}'"></button>
+      <button type="submit" name="movie--{{forloop.counter0}}"><img src="https://image.tmdb.org/t/p/w500/{{poster}}" class="movie_image" alt="movieposter" onerror="this.src='{% static 'movies/img/stock.jpg' %}'"></button>
     </form>
     </body>
     {% endfor %}

@@ -7,26 +7,27 @@
 </head>
 <div class="w-100">
     <br>
-    <h1 class="text-center mb-5">Top Movies on IMDb</h1>
+    <h1 class="text-center mb-5">Now Playing In Theaters</h1>
     <div class="row w-100 p-0">
-      {% for movie in box_office_movies %}
-      <div class="col-md-3 mb-3">
-        <div class="card border-0">
-          <div class="card-body custom-body">
-            <h5 class="card-title text-center card-title-custom">{{ movie.title }}</h5>
-            <form method="POST" action="{% url 'add_imdb_movie' %}">
-                {% csrf_token %}
-                <input type="hidden" name="imdb_movie" value="{{ movie }}">
-                <button type="submit"><img class="card-img-top" src="{{ movie.image|replace:'_V1_Ratio0.6716_AL_.jpg' }}"/></button>
-            </form>
-            
-            <!-- Add more movie details as needed -->
-          </div>
+        {% for movie in box_office_movies %}
+        <div class="col-md-3 mb-3">
+            <div class="card border-0">
+                <div class="card-body custom-body">
+                    <h5 class="card-title text-center card-title-custom custom-title">{{ movie.title }}</h5>
+                    <!-- <p class="card-text">{{ movie.overview }}</p> -->
+                    <p class="card-text">Release Date: {{ movie.release_date }}</p>
+                    <form method="POST" action="{% url 'add_imdb_movie' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="imdb_movie" value="{{ movie }}">
+                        <button type="submit">
+                            <img class="card-img-top" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" alt="{{ movie.title }}">
+                        </button>
+                    </form>
+                    <!-- Add more movie details as needed -->
+                </div>
+            </div>
         </div>
-      </div>
-      {% endfor %}
+        {% endfor %}
     </div>
-  </div>
-  
-  
+</div>
 {% endblock %}

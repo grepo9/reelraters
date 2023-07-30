@@ -18,11 +18,16 @@
       <div class="card border-0">
        
         <div class="card-body custom-body">
-          <h5 class="card-title card-title-custom text-center">{{ movie.title }}</h5>
+          <h5 class="card-title card-title-custom text-center custom-title">{{ movie.title }}</h5>
           <div class="stars">
             {{ movie.ratings.first.rating|rating_stars|safe }}
           </div>
-          <img class="card-img-top" src="{{movie.poster_image_url}}">
+          {% if movie.poster_image_url|slice:":8" != "https://" %}
+              <img class="card-img-top" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_image_url }}" alt="{{ movie.title }}">
+          {% else %}
+              <img class="card-img-top" src="{{ movie.poster_image_url }}" alt="{{ movie.title }}">
+          {% endif %}
+
           <div class="button-container">
             <a href="{% url 'rate_movie' movie.id %}" class="btn btn-primary">Rate</a>
             <a href="{% url 'remove_movie' movie.id %}" class="btn btn-danger">Remove</a>
