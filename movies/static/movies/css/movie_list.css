@@ -37,6 +37,9 @@ h2 {
 
 .card-title-custom {
     color: #E0E0E0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .button-container {

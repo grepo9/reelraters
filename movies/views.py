@@ -43,7 +43,8 @@ def add_movie(request):
     if request.method == 'POST':
         if 'show_movies' in request.POST:
             title = request.POST.get('title')
-            data = get_movie_info(title)  
+            year = request.POST.get('year')
+            data = get_movie_info(title,  year=year)  
             if not data or 'results' not in data:
                 return render(request, 'movies/add_movie.html', {'posters': None})
             currently_displayed_movies = data['results']
@@ -58,7 +59,11 @@ def add_movie(request):
                 if key.startswith('movie'):
                     movie_index = int(key.replace('movie--', ''))
             selected_movie = request.session.get('shown_movies')[movie_index]
-            movie = Movie.objects.create(title=selected_movie['title'], year=selected_movie['release_date'][:4], imdb_id=selected_movie['id'], poster_image_url=selected_movie['poster_path'], user=request.user)
+            print('SELECTED_MOVIE', selected_movie)
+            imdb_id = selected_movie['id']
+            existing_movie = Movie.objects.filter(user=request.user, imdb_id=imdb_id).exists()
+            if not existing_movie:
+                Movie.objects.create(title=selected_movie['title'], year=selected_movie['release_date'][:4], imdb_id=selected_movie['id'], poster_image_url=selected_movie['poster_path'], user=request.user)
             return redirect('movie_list')
 
     return render(request, 'movies/add_movie.html')
@@ -82,6 +87,8 @@ def rate_movie(request, movie_id):
             existed_rating.save()
         else:
             Rating.objects.create(movie=movie, rating=rating, user=request.user)
+        movie.rating_count += 1
+        movie.save()
         return redirect('movie_list')
     return render(request, 'movies/rate_movie.html', {'movie': movie, 'existed_review': existed_review, 'existed_rating': existed_rating})
 
@@ -92,13 +99,19 @@ def remove_movie(request, movie_id):
     return redirect('movie_list')
 
 
-def get_movie_info(title, year=None):
+def get_movie_info(title, adult=False, year=None):
     url = f"https://api.themoviedb.org/3/search/movie?query={title}"
     headers = {
         "accept": "application/json",
         "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlMTJjNzcyN2ZjZDJmOTVlNDUzNDU3ZGM3NzEwOTljZSIsInN1YiI6IjY0YzViMzc1ZWVjNWI1MDBlMjNiZDRmOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JEiw80j42f2XkDCpm8iDhuWAnLXPMUG0ChVdejtxn5g"
     }
-
+    if adult:
+        url += "&include_adult=true"
+    else:
+        url += "&include_adult=false"
+    
+    if year:
+        url += f"&year={year}"
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         data = response.json()
@@ -115,7 +128,6 @@ def get_box_office_movies():
     }
 
     response = requests.get(url, headers=headers)
-    print(response.text)
 
     if response.status_code == 200:
         box_office_movies = response.json()['results']
@@ -146,8 +158,11 @@ def add_imdb_movie(request):
     imdb_id = imdb_movie.get('id')
     poster_image_url = imdb_movie.get('poster_path')
 
-    # # Create a new Movie object and save it to the database
-    Movie.objects.create(title=title, year=year, imdb_id=imdb_id, poster_image_url=poster_image_url, user=request.user)
+    existing_movie = Movie.objects.filter(user=request.user, imdb_id=imdb_id).exists()
+
+    if not existing_movie:
+        # Movie with the same imdb_id doesn't exist for the user, create a new Movie object
+        Movie.objects.create(title=title, year=year, imdb_id=imdb_id, poster_image_url=poster_image_url, user=request.user)
 
     # Redirect the user to their movie list
     return redirect('movie_list')

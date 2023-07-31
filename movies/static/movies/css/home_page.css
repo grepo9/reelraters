@@ -5,6 +5,8 @@ body {
   
 h1 {
     color: #E0E0E0;
+    font-size: 4rem; /* Increase the font size */
+    text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.2);
 }
 
 .custom-body {
@@ -16,6 +18,10 @@ h1 {
     color: #E0E0E0;
     font-size: 1.5rem; 
     font-weight: bold; 
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
 .custom-title {
@@ -45,8 +51,39 @@ button {
     display: block;
     margin-bottom: 10px; 
     border: 2px solid #FFFFFF;
+    transition: opacity 0.3s;
 }
 
 .card-text {
     color: #FFFFFF;
 }
+
+.card {
+    background-color: rgba(34, 30, 30, 0.8);
+    color: #fff; /* Default text color */
+    transition: background-color 0.3s; /* Add a transition for smoother effect */
+}
+
+.card-img-top:hover {
+    opacity: 0.9; /* Lower the opacity on hover to make it slightly lighter */
+    cursor: pointer; /* Change cursor to indicate interactivity */
+    transform: scale(1.05); /* Slightly scale up the image on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Increase the shadow on hover */
+  }
+  
+  .add-movie-label {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8); /* Darken the background color of the label */
+    color: #fff; /* Text color for the label */
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 5px;
+  }
+  
+  .card-img-top:hover + .add-movie-label {
+    display: block;
+  }
