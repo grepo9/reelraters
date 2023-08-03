@@ -2,7 +2,7 @@
     width: 400px; 
     height: 600px; 
     float: left; 
-    border: 1px solid black;
+    /* border: 1px solid black; */
     opacity: 1;
     transition: .5s ease;
     backface-visibility: hidden;
@@ -11,4 +11,7 @@
 }
 .movie_image:hover {
     opacity: 0.3;
+}
+body {
+    background-color: #221e1e;
 }

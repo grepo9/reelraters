@@ -4,14 +4,25 @@
 {% block content %}
   <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
   <link rel="stylesheet" type="text/css" href="{% static 'movies/css/add_movie.css' %}">
-
+  {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
   <br>
-  <form method="POST" style="text-align: center; font-family: 'Open Sans';">
+  
+  <form method="POST" style="text-align: center; font-family: 'Open Sans'; color: white;">
     {% csrf_token %}
-    <input type="text" name="title" style="width: 100em; height: 5em; font-size: 1em; text-align: center;" placeholder="Search for a movie title here" required>
+    <input type="text" name="title" style="width: 100em; height: 5em; font-size: 1em; text-align: center; " placeholder="Search for a movie title here" required>
     <br>
     <label for="year">Year:</label>
-    <input type="number" name="year" placeholder="Optional">
+    <select name="year">
+      <option value="" selected>N/A</option>
+
+      {% for year in years %}
+          <option value="{{ year }}">{{ year }}</option>
+      {% endfor %}
+    </select>
     <br>
     <button type="submit" name="show_movies"> Show movies </button>
   </form>
@@ -20,15 +31,17 @@
   {% if posters %}
     {% for poster in posters %}
     <body style="text-align: center;">
-    <form method="POST" style="display: inline;">
-      {% csrf_token %}
-      <button type="submit" name="movie--{{forloop.counter0}}"><img src="https://image.tmdb.org/t/p/w500/{{poster}}" class="movie_image" alt="movieposter" onerror="this.src='{% static 'movies/img/stock.jpg' %}'"></button>
-    </form>
+      <form method="POST" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" name="movie--{{forloop.counter0}}" style="background: none; border: none; padding: 0;">
+          <img src="https://image.tmdb.org/t/p/w500/{{poster}}" class="movie_image" alt="movieposter" onerror="this.src='{% static 'movies/img/stock.jpg' %}'">
+        </button>    
+      </form>
     </body>
     {% endfor %}
   {% else %}
     {% if request.method == "POST" %}
-      <h1 style="text-align: center;">No movies found!</h1>
+      <h1 style="text-align: center; color: white;">No movies found!</h1>
     {% endif %}
   {% endif %}
 {% endblock %}

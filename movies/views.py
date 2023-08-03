@@ -11,6 +11,7 @@ from django.core.cache import cache
 import json
 import ast
 from django.db import models
+from django.contrib import messages
 
 
 class SignUpView(generic.CreateView):
@@ -40,20 +41,23 @@ def movie_list(request):
 
 @login_required
 def add_movie(request):
+    current_year = 2023
+
+    years = range(current_year, -1, -1)
     if request.method == 'POST':
         if 'show_movies' in request.POST:
             title = request.POST.get('title')
             year = request.POST.get('year')
             data = get_movie_info(title,  year=year)  
             if not data or 'results' not in data:
-                return render(request, 'movies/add_movie.html', {'posters': None})
+                return render(request, 'movies/add_movie.html', {'posters': None, 'years': years})
             currently_displayed_movies = data['results']
             if not currently_displayed_movies:
-                return render(request, 'movies/add_movie.html', {'posters': None})
+                return render(request, 'movies/add_movie.html', {'posters': None, 'years': years})
             else:
                 request.session['shown_movies'] = currently_displayed_movies
             posters = [movie['poster_path'] for movie in currently_displayed_movies]
-            return render(request, 'movies/add_movie.html', {'posters': posters})
+            return render(request, 'movies/add_movie.html', {'posters': posters, 'years': years})
         elif any(item.startswith("movie--") for item in request.POST):
             for key, value in request.POST.items():
                 if key.startswith('movie'):
@@ -63,15 +67,21 @@ def add_movie(request):
             imdb_id = selected_movie['id']
             existing_movie = Movie.objects.filter(user=request.user, imdb_id=imdb_id).exists()
             if not existing_movie:
-                Movie.objects.create(title=selected_movie['title'], year=selected_movie['release_date'][:4], imdb_id=selected_movie['id'], poster_image_url=selected_movie['poster_path'], user=request.user)
+                    Movie.objects.create(title=selected_movie['title'], year=selected_movie['release_date'][:4], imdb_id=selected_movie['id'], poster_image_url=selected_movie['poster_path'], user=request.user)
+                    messages.success(request, 'Movie added successfully.')
+                    return redirect('rate_movie', movie_id=imdb_id)
+            else:
+                messages.warning(request, 'Movie already exists in your list.')
+                return redirect('add_movie')
             return redirect('movie_list')
-
-    return render(request, 'movies/add_movie.html')
+    
+    
+    return render(request, 'movies/add_movie.html', {'years': years})
 
 
 @login_required
 def rate_movie(request, movie_id):
-    movie = Movie.objects.get(id=movie_id)
+    movie = Movie.objects.get(imdb_id=movie_id, user=request.user)
     existed_rating = Rating.objects.filter(movie=movie, user=request.user).first()
     existed_review = Review.objects.filter(movie=movie, user=request.user).first()
     if request.method == 'POST':
@@ -133,21 +143,64 @@ def get_box_office_movies():
         box_office_movies = response.json()['results']
         return box_office_movies
     else:
-        # handle API error
         print('Failed to fetch box office movies')
         return []
+    
+def get_popular_movies():
+    url = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1"
+
+    headers = {
+        "accept": "application/json",
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlMTJjNzcyN2ZjZDJmOTVlNDUzNDU3ZGM3NzEwOTljZSIsInN1YiI6IjY0YzViMzc1ZWVjNWI1MDBlMjNiZDRmOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JEiw80j42f2XkDCpm8iDhuWAnLXPMUG0ChVdejtxn5g"
+    }
+
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        popular_movies = response.json()['results']
+        return popular_movies
+    else:
+        print('Failed to fetch popular movies')
+        return []
+    
+def get_top_rated_movies():
+    url = "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1"
+
+    headers = {
+        "accept": "application/json",
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlMTJjNzcyN2ZjZDJmOTVlNDUzNDU3ZGM3NzEwOTljZSIsInN1YiI6IjY0YzViMzc1ZWVjNWI1MDBlMjNiZDRmOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JEiw80j42f2XkDCpm8iDhuWAnLXPMUG0ChVdejtxn5g"
+    }
+
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        top_rated_movies = response.json()['results']
+        return top_rated_movies
+    else:
+        print('Failed to fetch popular movies')
+        return []
+
 
 def home_page(request):
     box_office_movies = cache.get('box_office_movies')
+    popular_movies = cache.get('popular_movies')
+    top_rated_movies = cache.get('top_rated_movies')
+    if not popular_movies:
+        popular_movies = get_popular_movies()
+        cache.set('popular_movies', popular_movies, 3600)
+
     if not box_office_movies:
         box_office_movies = get_box_office_movies()
-    return render(request, 'home_page.html', {'box_office_movies': box_office_movies})
+        cache.set('box_office_movies', box_office_movies, 3600)
+
+    if not top_rated_movies:
+        top_rated_movies = get_top_rated_movies()
+        cache.set('top_rated_movies', top_rated_movies, 3600)
+    return render(request, 'home_page.html', {'box_office_movies': box_office_movies, 'popular_movies': popular_movies, 'top_rated_movies': top_rated_movies})
 
 def add_imdb_movie(request):
     # Extract movie information from the JSON object
     # needs to be double quotes to load
-
-    # imdb_movie = json.loads(request.POST.get('imdb_movie').replace("'", "\"").replace("True", "true").replace("False", "false"))
     imdb_movie = ast.literal_eval(request.POST.get('imdb_movie'))
     
    
@@ -160,9 +213,12 @@ def add_imdb_movie(request):
 
     existing_movie = Movie.objects.filter(user=request.user, imdb_id=imdb_id).exists()
 
-    if not existing_movie:
-        # Movie with the same imdb_id doesn't exist for the user, create a new Movie object
+    if existing_movie:
+        messages.warning(request, 'Movie already exists in your list.')
+    else:
         Movie.objects.create(title=title, year=year, imdb_id=imdb_id, poster_image_url=poster_image_url, user=request.user)
+        messages.success(request, 'Movie added successfully.')
+        return redirect('movie_list')
 
     # Redirect the user to their movie list
-    return redirect('movie_list')
+    return redirect('home_page')

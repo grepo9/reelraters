@@ -3,41 +3,46 @@
 {% load static %}
 {% load star_tags %}
 
-
 {% block content %}
 <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% static 'movies/css/movie_list.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
-
 <body>
-<div class="w-100">
-  <div class="row w-100 p-0">
-    {% for movie in movies %}
-    <div class="col-md-3 mb-3">
-      <div class="card border-0">
-       
-        <div class="card-body custom-body">
-          <h5 class="card-title card-title-custom text-center custom-title">{{ movie.title }}</h5>
-          <div class="stars">
-            {{ movie.ratings.first.rating|rating_stars|safe }}
-          </div>
-          {% if movie.poster_image_url|slice:":8" != "https://" %}
-              <img class="card-img-top" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_image_url }}" alt="{{ movie.title }}">
-          {% else %}
-              <img class="card-img-top" src="{{ movie.poster_image_url }}" alt="{{ movie.title }}">
-          {% endif %}
+  {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+  <div class="w-100">
+    <div class="row w-100 p-0">
+      {% for movie in movies %}
+      <div class="col-md-3 mb-3">
+        <div class="card border-0">
+          <div class="card-body custom-body">
+            <h5 class="card-title card-title-custom text-center custom-title">{{ movie.title }}</h5>
+            <div class="stars">
+              {{ movie.ratings.first.rating|rating_stars|safe }}
+            </div>
+            <!-- Wrap the image with an anchor tag linking to the rate_movie view -->
+            <a href="{% url 'rate_movie' movie.imdb_id %}">
+              {% if movie.poster_image_url|slice:":8" != "https://" %}
+                <img class="card-img-top" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_image_url }}" alt="{{ movie.title }}">
+              {% else %}
+                <img class="card-img-top" src="{{ movie.poster_image_url }}" alt="{{ movie.title }}">
+              {% endif %}
+            </a>
 
-          <div class="button-container">
-            <a href="{% url 'rate_movie' movie.id %}" class="btn btn-primary">Rate</a>
-            <a href="{% url 'remove_movie' movie.id %}" class="btn btn-danger">Remove</a>
+            <div class="button-container">
+              <a href="{% url 'rate_movie' movie.imdb_id %}" class="btn btn-primary">Rate</a>
+              <a href="{% url 'remove_movie' movie.imdb_id %}" class="btn btn-danger">Remove</a>
+            </div>
           </div>
-          
         </div>
       </div>
+      {% endfor %}
     </div>
-    {% endfor %}
   </div>
-</div>
+</body>
   
 {% endblock %}

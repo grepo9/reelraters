@@ -47,6 +47,13 @@ h2 {
     justify-content: center;
     margin-top: 10px;
 }
+.button-container .btn {
+    flex: 1;
+    margin-right: 20px;
+    max-width: 120px; 
+    font-size: 14px;
+    padding: 5px 10px; 
+}
 
 .card-title-custom {
     color: #E0E0E0;

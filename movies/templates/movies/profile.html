@@ -1,14 +1,22 @@
 {% extends 'base.html' %}
+{% load static%}
+
 
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'movies/css/profile.css' %}">
+
 <div class="container">
-    <h1>{{ request.user.username }}'s Profile</h1>
-    <p>Email: {{ request.user.email }}</p>
-    <p>First Name: {{ request.user.first_name }}</p>
-    <p>Last Name: {{ request.user.last_name }}</p>
-    <form action="{% url 'logout' %}" method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-link text-decoration-none">Logout</button>
-    </form>
+    <div class="profile-header">
+        <h1>{{ request.user.username }}'s Profile</h1>
+        <div class="profile-info">
+            <p>Email: {{ request.user.email }}</p>
+            <p>First Name: {{ request.user.first_name }}</p>
+            <p>Last Name: {{ request.user.last_name }}</p>
+        </div>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-link text-decoration-none">Logout</button>
+        </form>
+    </div>
 </div>
 {% endblock %}

@@ -5,16 +5,103 @@
 <head>
     <link rel="stylesheet" type="text/css" href="{% static 'movies/css/home_page.css' %}">
 </head>
+{% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+{% endif %}
 <div class="w-100">
+    <h1 class="text-center mb-5">Now Playing in Theaters</h1>
+    <div class="gallery-wrapper" id="now-playing-gallery">
+        <button class="btn btn-primary gallery-button gallery-button-left" onclick="scrollGallery('left', 'now-playing-gallery')">
+            <img src="../../static/movies/img/leftarrow.png" style="width: 50px; height: 50px;"/>
+        </button>
+        
+        <div class="image-gallery-container">
+            {% for movie in box_office_movies %}
+            <div class="image-gallery-item">
+                <form method="POST" action="{% url 'add_imdb_movie' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="imdb_movie" value="{{ movie }}">
+                    <button type="submit">
+                        <img class="card-img-top" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" alt="{{ movie.title }}">
+                        <span class="add-movie-label">Add Movie</span>
+                    </button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    
+        <button class="btn btn-primary gallery-button gallery-button-right" onclick="scrollGallery('right', 'now-playing-gallery')">
+            <img src="../../static/movies/img/rightarrow.png" style="width: 50px; height: 50px;"/>
+        </button>
+    </div>
     <br>
+
+    <h1 class="text-center mb-5">Top Rated Movies</h1>
+    <div class="gallery-wrapper" id="top-rated-gallery">
+        <button class="btn btn-primary gallery-button gallery-button-left" onclick="scrollGallery('left', 'top-rated-gallery')">
+            <img src="../../static/movies/img/leftarrow.png" style="width: 50px; height: 50px;"/>
+        </button>
+        
+        <div class="image-gallery-container">
+            {% for movie in top_rated_movies %}
+            <div class="image-gallery-item">
+                <form method="POST" action="{% url 'add_imdb_movie' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="imdb_movie" value="{{ movie }}">
+                    <button type="submit">
+                        <img class="card-img-top" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" alt="{{ movie.title }}">
+                        <span class="add-movie-label">Add Movie</span>
+                    </button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    
+        <button class="btn btn-primary gallery-button gallery-button-right" onclick="scrollGallery('right', 'top-rated-gallery')">
+            <img src="../../static/movies/img/rightarrow.png" style="width: 50px; height: 50px;"/>
+        </button>
+    </div>
+    <br>
+
+    <h1 class="text-center mb-5">Popular Movies</h1>
+    <div class="gallery-wrapper" id="popular-gallery">
+        <button class="btn btn-primary gallery-button gallery-button-left" onclick="scrollGallery('left', 'popular-gallery')">
+            <img src="../../static/movies/img/leftarrow.png" style="width: 50px; height: 50px;"/>
+        </button>
+        
+        <div class="image-gallery-container">
+            {% for movie in popular_movies %}
+            <div class="image-gallery-item">
+                <form method="POST" action="{% url 'add_imdb_movie' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="imdb_movie" value="{{ movie }}">
+                    <button type="submit">
+                        <img class="card-img-top" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" alt="{{ movie.title }}">
+                        <span class="add-movie-label">Add Movie</span>
+                    </button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    
+        <button class="btn btn-primary gallery-button gallery-button-right" onclick="scrollGallery('right', 'popular-gallery')">
+            <img src="../../static/movies/img/rightarrow.png" style="width: 50px; height: 50px;"/>
+        </button>
+    </div>
+    <br>
+
+    
+
     <h1 class="text-center mb-5">Now Playing In Theaters</h1>
+    
     <div class="row w-100 p-0">
         {% for movie in box_office_movies %}
         <div class="col-md-3 mb-3">
             <div class="card border-0">
                 <div class="card-body custom-body">
                     <h5 class="card-title text-center card-title-custom custom-title">{{ movie.title }}</h5>
-                    <!-- <p class="card-text">{{ movie.overview }}</p> -->
                     <p class="card-text">Release Date: {{ movie.release_date }}</p>
                     <form method="POST" action="{% url 'add_imdb_movie' %}">
                         {% csrf_token %}
@@ -25,11 +112,35 @@
 
                         </button>
                     </form>
-                    <!-- Add more movie details as needed -->
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
+
+    
+    
 </div>
+
+
+<script>
+    function scrollGallery(direction, galleryId) {
+        const wrapper = document.getElementById(galleryId);
+        const container = wrapper.querySelector(".image-gallery-container");
+        console.log(container);
+        const scrollAmount = 2500;
+
+        if (direction === 'left') {
+            container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        } else if (direction === 'right') {
+            container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    }
+
+
+</script>
+
 {% endblock %}
+
+
+

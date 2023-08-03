@@ -16,8 +16,13 @@
 
 .navbar-brand {
     color: #9E9E9E;
+    font-size: 24px;
 }
 
 .navbar-brand:hover {
     color: #9E9E9E;
+}
+
+.navbar-nav .nav-link {
+    font-size: 18px; /* You can adjust this value to make the titles bigger */
 }
