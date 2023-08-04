@@ -1,4 +1,3 @@
-<!-- In your base.html file -->
 {% load static%}
 <!DOCTYPE html>
 <html>
@@ -9,11 +8,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'movies/css/base.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNVQ8" crossorigin="anonymous"></script>
-    <script src="{% static 'movies/js/navbar.js' %}"></script>
+ 
 </head>
 <body>
+
     <nav class="navbar navbar-expand-lg">
         <a class="navbar-brand" href="{% url 'home_page' %}">Home Page</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,10 +41,17 @@
             {% endif %}
           </ul>
         </div>
-      </nav>
+    </nav>
 
     {% block content %}
     {% endblock %}
+
+    <!-- Moved scripts to the bottom of the body -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
+    <!-- Using bootstrap.bundle.min.js to ensure Popper.js is also loaded -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script src="{% static 'movies/js/navbar.js' %}"></script>
 </body>
 </html>

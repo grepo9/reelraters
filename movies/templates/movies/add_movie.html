@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
-{% load static%}
+{% load static %}
 
 {% block content %}
+{% include 'rate_movie.html' %}
+
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
   <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
   <link rel="stylesheet" type="text/css" href="{% static 'movies/css/add_movie.css' %}">
   {% if messages %}
@@ -10,38 +16,56 @@
     {% endfor %}
   {% endif %}
   <br>
-  
-  <form method="POST" style="text-align: center; font-family: 'Open Sans'; color: white;">
-    {% csrf_token %}
-    <input type="text" name="title" style="width: 100em; height: 5em; font-size: 1em; text-align: center; " placeholder="Search for a movie title here" required>
-    <br>
-    <label for="year">Year:</label>
-    <select name="year">
-      <option value="" selected>N/A</option>
 
-      {% for year in years %}
-          <option value="{{ year }}">{{ year }}</option>
-      {% endfor %}
-    </select>
-    <br>
-    <button type="submit" name="show_movies"> Show movies </button>
-  </form>
+  <div class="search-container">
+    <form method="POST">
+      {% csrf_token %}
+      <div class="search-bar">
+        <input type="text" name="title" placeholder="Search for a movie title here" required>
+        <button type="submit" name="show_movies">Search</button>
+      </div>
+      <div class="filter-section">
+        <label for="year">Year:</label>
+        <select name="year">
+          <option value="" selected>N/A</option>
+          {% for year in years %}
+              <option value="{{ year }}">{{ year }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </form>
+  </div>
   <br>
 
   {% if posters %}
-    {% for poster in posters %}
-    <body style="text-align: center;">
+    <div class="poster-container">
+      {% for poster in posters %}
       <form method="POST" style="display: inline;">
         {% csrf_token %}
-        <button type="submit" name="movie--{{forloop.counter0}}" style="background: none; border: none; padding: 0;">
+        <button type="submit" name="movie--{{forloop.counter0}}" class="movieButton" data-toggle="modal" data-target="#moviePopup" style="background: none; border: none; padding: 0;">
           <img src="https://image.tmdb.org/t/p/w500/{{poster}}" class="movie_image" alt="movieposter" onerror="this.src='{% static 'movies/img/stock.jpg' %}'">
-        </button>    
+        </button>
       </form>
-    </body>
-    {% endfor %}
+      {% endfor %}
+    </div>
   {% else %}
     {% if request.method == "POST" %}
       <h1 style="text-align: center; color: white;">No movies found!</h1>
     {% endif %}
   {% endif %}
+  
+
+    {% if show_rating_modal %}
+    <script>
+        $(document).ready(function(){
+            $("#moviePopup").modal('show');
+        });
+    </script>
+    {% endif %}
+
+
 {% endblock %}
+
+
+
+

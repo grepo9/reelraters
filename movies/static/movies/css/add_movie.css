@@ -15,3 +15,60 @@
 body {
     background-color: #221e1e;
 }
+.search-container {
+    text-align: center;
+  }
+  
+  .search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #333;
+    border-radius: 5px;
+    padding: 10px;
+  }
+  
+  .search-bar input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    color: #fff;
+    background-color: transparent;
+    border: none;
+  }
+  
+  .search-bar button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .filter-section {
+    margin-top: 10px;
+  }
+  
+  .filter-section label {
+    color: #fff;
+    margin-right: 10px;
+  }
+  
+  .filter-section select {
+    padding: 5px;
+    border-radius: 5px;
+  }
+  
+  .poster-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .poster-container form {
+    margin: 10px;
+  }

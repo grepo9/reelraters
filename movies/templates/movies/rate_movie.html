@@ -1,45 +1,61 @@
-{% extends 'base.html' %}
-{% load static%}
+{% load static %}
 {% block content %}
-<head>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="{% static 'movies/css/rate_movie.css' %}">
-</head>
-<div class="panel panel-default">
-  <div class="panel-body">
-    <div class="row">
-      <div class="col-md-4">
-        {% if movie.poster_image_url|slice:":8" != "https://" %}
-            <img class="card-img-top" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_image_url }}" alt="{{ movie.title }}">
-        {% else %}
-            <img class="card-img-top" src="{{ movie.poster_image_url }}" alt="{{ movie.title }}">
-        {% endif %}      
+
+<div class="modal fade" id="moviePopup" tabindex="-1" role="dialog" aria-labelledby="moviePopupLabel">
+  <div class="modal-dialog modal-xl" role="document"> <!-- Use modal-xl class to make it extra-large -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">{{selected_movie.title}}</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModalButton">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-      <div class="col-md-8">
-        <h2>{{ movie.title }}</h2>
-        <form method="POST">
-          {% csrf_token %}
-          <div class="form-group">
-            <label for="rating">Rating:</label>
-            {% if existed_rating %}
-              <input type="number" name="rating" required min="1" max="5" step="0.1" value="{{existed_rating.rating}}" class="form-control">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-4">
+            {% if selected_movie.poster_image_url|slice:":8" != "https://" %}
+                <img class="card-img-top" src="https://image.tmdb.org/t/p/w500/{{ selected_movie.poster_image_url }}" alt="{{ selected_movie.title }}">
             {% else %}
-              <input type="number" name="rating" required min="1" max="5" step="0.1" class="form-control">
+                <img class="card-img-top" src="{{ selected_movie.poster_image_url }}" alt="{{ selected_movie.title }}">
             {% endif %}
           </div>
-          <div class="form-group">
-            <label for="review">Review:</label>
-            {% if existed_review %}
-              <textarea name="review" rows="4" cols="50" class="form-control">{{ existed_review.review }}</textarea>
-            {% else %}
-              <textarea name="review" rows="4" cols="50" class="form-control"></textarea>
+          <div class="col-md-8">
+            <p>{{ selected_movie.description }}</p>
+            {% if selected_movie.imdb_id %}
+            <form action="{% url 'rate_movie' selected_movie.imdb_id %}" method="post">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="rating">Rating:</label>
+                {% if existed_rating %}
+                  <input type="number" name="rating" required min="1" max="5" step="0.1" value="{{ existed_rating.rating }}" class="form-control">
+                {% else %}
+                  <input type="number" name="rating" required min="1" max="5" step="0.1" class="form-control">
+                {% endif %}
+              </div>
+              <div class="form-group">
+                <label for="review">Review:</label>
+                {% if existed_review %}
+                  <textarea name="review" rows="4" cols="50" class="form-control">{{ existed_review.review }}</textarea>
+                {% else %}
+                  <textarea name="review" rows="4" cols="50" class="form-control"></textarea>
+                {% endif %}
+              </div>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </form>
             {% endif %}
+
           </div>
-          <button type="submit" class="btn btn-primary">Save</button>
-        </form>
+        </div>
       </div>
     </div>
   </div>
 </div>
+{% if selected_movie.imdb_id %}
+<script>
+  document.getElementById('closeModalButton').addEventListener('click', function() {
+    window.location.href = "{% url 'remove_movie' selected_movie.imdb_id %}";
+  });
+</script>
+{% endif %}
 
 {% endblock %}

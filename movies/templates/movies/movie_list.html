@@ -4,14 +4,23 @@
 {% load star_tags %}
 
 {% block content %}
+{% include 'rate_movie.html' %}
+
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+
 <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% static 'movies/css/movie_list.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-
 <body>
   {% if messages %}
     {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+        </div>
     {% endfor %}
   {% endif %}
   <div class="w-100">
@@ -25,16 +34,31 @@
               {{ movie.ratings.first.rating|rating_stars|safe }}
             </div>
             <!-- Wrap the image with an anchor tag linking to the rate_movie view -->
-            <a href="{% url 'rate_movie' movie.imdb_id %}">
+            <form method="POST" >
+              {% csrf_token %}
+
+              <input type="hidden" name="movie_imdb_id" value="{{ movie.imdb_id }}">
+
               {% if movie.poster_image_url|slice:":8" != "https://" %}
+                <button type="submit" class="image-button">
                 <img class="card-img-top" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_image_url }}" alt="{{ movie.title }}">
+              </button>
               {% else %}
+              <button type="submit" class="image-button">
                 <img class="card-img-top" src="{{ movie.poster_image_url }}" alt="{{ movie.title }}">
+              </button>
+
               {% endif %}
-            </a>
+            </form>
+
 
             <div class="button-container">
-              <a href="{% url 'rate_movie' movie.imdb_id %}" class="btn btn-primary">Rate</a>
+              <form method="POST" style="display: inline;">
+                {% csrf_token %}
+                <input type="hidden" name="movie_imdb_id" value="{{ movie.imdb_id }}">
+                <button type="submit" class="btn btn-primary">Rate</button>
+
+              </form>
               <a href="{% url 'remove_movie' movie.imdb_id %}" class="btn btn-danger">Remove</a>
             </div>
           </div>
@@ -44,5 +68,15 @@
     </div>
   </div>
 </body>
+
+{% if show_rating_modal %}
+  <script>
+    $(document).ready(function(){
+      $('#moviePopup').modal('show');
+    });
+  </script>
+{% endif %}
+
+
   
 {% endblock %}

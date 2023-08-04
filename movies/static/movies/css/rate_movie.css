@@ -19,11 +19,12 @@ h2 {
     color: #E0E0E0;
 }
 
-.movie_poster {
+.card-img-top {
     width: 100%;
     height: 100%;
     border: none;
     display: block;
+    object-fit: cover;
 }
 
 
@@ -42,4 +43,10 @@ h2 {
     background-color: #212121; /* set the background color to whatever you want */
     color: white;
   }
-  
+  .modal-80w {
+    max-width: 80%;
+}
+.modal-80w .modal-content {
+    height: 80vh;  /* 80% of the viewport height */
+    overflow: auto; /* Allows scroll if content overflows */
+}
