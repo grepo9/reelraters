@@ -61,7 +61,10 @@
                 <!-- <button type="submit" class="btn btn-primary">Rate</button> -->
 
               </form>
+              {% if movie.imdb_id %}
               <a href="{% url 'remove_movie' movie.imdb_id %}" class="btn btn-danger">Remove</a>
+              {% endif %}
+
             </div>
           </div>
         </div>
