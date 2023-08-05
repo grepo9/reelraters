@@ -1,11 +1,14 @@
 {% load static %}
 {% block content %}
+<head>
+  <link rel="stylesheet" type="text/css" href="{% static 'movies/css/rate_movie.css' %}">
+</head>
 
 <div class="modal fade" id="moviePopup" tabindex="-1" role="dialog" aria-labelledby="moviePopupLabel">
-  <div class="modal-dialog modal-xl" role="document"> <!-- Use modal-xl class to make it extra-large -->
+  <div class="modal-dialog modal-xl" role="document"> 
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title">{{selected_movie.title}}</h2>
+        <h2 class="modal-title" id="modalTitle">{{selected_movie.title}}</h2>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModalButton">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -20,6 +23,7 @@
             {% endif %}
           </div>
           <div class="col-md-8">
+            <h5>Description:</h5>
             <p>{{ selected_movie.description }}</p>
             {% if selected_movie.imdb_id %}
             <form action="{% url 'rate_movie' selected_movie.imdb_id %}" method="post">
@@ -50,12 +54,6 @@
     </div>
   </div>
 </div>
-{% if selected_movie.imdb_id %}
-<script>
-  document.getElementById('closeModalButton').addEventListener('click', function() {
-    window.location.href = "{% url 'remove_movie' selected_movie.imdb_id %}";
-  });
-</script>
-{% endif %}
+
 
 {% endblock %}

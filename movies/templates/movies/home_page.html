@@ -2,7 +2,10 @@
 {% block content %}
 {% load static%}
 {% load custom_filters %}
+{% include 'rate_movie.html' %}
+
 <head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'movies/css/home_page.css' %}">
 </head>
 {% if messages %}
@@ -11,6 +14,7 @@
         {% endfor %}
 {% endif %}
 <div class="w-100">
+    <br>
     <h1 class="text-center mb-5">Now Playing in Theaters</h1>
     <div class="gallery-wrapper" id="now-playing-gallery">
         <button class="btn btn-primary gallery-button gallery-button-left" onclick="scrollGallery('left', 'now-playing-gallery')">
@@ -94,7 +98,7 @@
 
     
 
-    <h1 class="text-center mb-5">Now Playing In Theaters</h1>
+    <!-- <h1 class="text-center mb-5">Now Playing In Theaters</h1>
     
     <div class="row w-100 p-0">
         {% for movie in box_office_movies %}
@@ -116,11 +120,19 @@
             </div>
         </div>
         {% endfor %}
-    </div>
+    </div> -->
 
     
     
 </div>
+
+{% if show_rating_modal %}
+    <script>
+        $(document).ready(function(){
+            $("#moviePopup").modal('show');
+        });
+    </script>
+{% endif %}
 
 
 <script>

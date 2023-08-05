@@ -5,7 +5,7 @@ body {
   
 h1 {
     color: #E0E0E0;
-    font-size: 4rem; 
+    font-size: 3.5rem; 
     text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.2);
 }
 
@@ -122,9 +122,9 @@ body {
     top: 50%;
     transform: translateY(-50%); 
     z-index: 2; 
-    background-color: rgba(0, 0, 0, 0.6); 
+    background-color: rgba(50, 50, 50, 0.6); 
     color: white;
-    height: 75%; /* Stretch the buttons vertically to cover the whole height of the gallery */
+    height: 30%; /* Stretch the buttons vertically to cover the whole height of the gallery */
     width: 50px; /* Optional, adjust as necessary */
     display: flex;
     align-items: center; /* Vertically center the text */
@@ -143,6 +143,8 @@ body {
     /* Existing styles */
     left: 0;
     border-top-right-radius: 15px; /* Optional rounded corner */
+    border-bottom-right-radius: 15px; /* Optional rounded corner */
+
 }
 
 .gallery-button-right {
