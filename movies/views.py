@@ -11,10 +11,9 @@ from django.core.cache import cache
 import ast
 from django.db import models
 from django.contrib import messages
-from config import MOVIEDB_API_KEY
 from django.http import JsonResponse
 from django.template.loader import render_to_string
-
+import os
 
 class SignUpView(generic.CreateView):
     form_class = UserCreationForm
@@ -26,14 +25,6 @@ class MyLoginView(LoginView):
     template_name = "login.html"
 
 
-# @login_required
-# def your_login_required_view(request):
-#     if not request.user.is_authenticated:
-#         messages.warning(request, "Please log in to access this page.")
-#     # Your view logic here
-#     # ...
-
-#     return render(request, 'login.html')
 @login_required
 def logout_view(request):
     logout(request)
@@ -189,10 +180,15 @@ def fetch_movies(endpoint, params=None):
     base_url = "https://api.themoviedb.org/3"
     url = f"{base_url}/{endpoint}"
 
+    env_api_key = os.environ.get('MOVIEDB_API_KEY')
+    print('FUCK', env_api_key)
     headers = {
         "accept": "application/json",
-        "Authorization": f"Bearer {MOVIEDB_API_KEY}",
+        "Authorization": f"Bearer {env_api_key}",
     }
+
+
+        
 
     response = requests.get(url, headers=headers, params=params)
 
