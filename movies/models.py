@@ -12,12 +12,17 @@ class Movie(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     rating_count = models.PositiveIntegerField(default=0)
 
+    def __str__(self):
+        return f"{self.title} ({self.year}) by {self.user.username}"
 
 class Rating(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='ratings')
     rating = models.FloatField (choices=([(i, i) for i in range(1, 6)]))
     created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Rating for '{self.movie.title}' by {self.user.username}"
 
     class Meta:
         unique_together = (('user', 'movie'),)
@@ -29,6 +34,8 @@ class Review(models.Model):
     review = models.TextField()
     review_date = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"Review for '{self.movie.title}' by {self.user.username}"
 
     class Meta:
         unique_together = (('user', 'movie'),)
