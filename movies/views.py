@@ -27,6 +27,14 @@ class MyLoginView(LoginView):
     template_name = "login.html"
 
 
+# @login_required
+# def your_login_required_view(request):
+#     if not request.user.is_authenticated:
+#         messages.warning(request, "Please log in to access this page.")
+#     # Your view logic here
+#     # ...
+
+#     return render(request, 'login.html')
 @login_required
 def logout_view(request):
     logout(request)
