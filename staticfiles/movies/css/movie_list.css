@@ -1,0 +1,121 @@
+.poster_grid {
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    text-align: center; 
+    font-family: 'Avenir', sans-serif;
+    align-items: center;
+    justify-content: center;
+    vertical-align: top;
+}
+.grids {
+    padding: 10px
+}
+.stars {
+    color: gold;
+    text-align: center;
+}
+
+body {
+    background-color: #212121;
+}
+
+.movie_poster {
+    width: 400px;
+    height: 500px;
+    object-fit: cover;
+    vertical-align: middle;
+}
+
+h2 {
+    color: #E0E0E0;
+}
+
+.custom-body {
+    background-color: #212121;
+}
+
+.card-title-custom {
+    color: #E0E0E0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    
+}
+.button-container .btn {
+    flex: 1;
+    margin-right: 20px;
+    max-width: 120px; 
+    font-size: 14px;
+    padding: 5px 10px; 
+}
+
+.card-title-custom {
+    color: #E0E0E0;
+    font-size: 1.5rem; 
+    font-weight: bold; 
+}
+
+.custom-title {
+    color: #FFFFFF; 
+    padding: 10px;
+    border-radius: 5px;
+    text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.2); 
+}
+
+.card-img-top {
+    object-fit: cover;
+    height: 50%; 
+    display: block;
+    margin-bottom: 10px; 
+}
+/* .image-button {
+  background: none;
+  border: none;
+  padding: 0;
+  appearance: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+.image-button img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .image-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .card-img-top:hover {
+    opacity: 0.7;
+    border: 2px solid white; /* Add a white border */
+    box-sizing: border-box;
+  }
+  
+  .image-button-content {
+    text-align: center;
+  }
+  
+  .image-button-title {
+    color: white;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  

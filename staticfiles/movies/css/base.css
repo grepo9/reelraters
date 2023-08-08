@@ -1,0 +1,30 @@
+.fa-user {
+    color: #ffffff; /* White */
+}
+
+.navbar-expand-lg {
+    background-color: #20232a; /* Dark gray background */
+}
+
+.navbar-nav > .active > a {
+    color: #17a2b8; /* Light blue for active link */
+}
+
+.navbar-nav li a {
+    color: #ffffff; /* White for inactive links */
+}
+
+.navbar-brand {
+    color: #ffffff; /* White for brand */
+    font-size: 24px;
+}
+
+.navbar-brand:hover {
+    color: #138496; /* Darker blue on hover */
+}
+
+.navbar-nav .nav-link {
+    font-size: 18px;
+}
+
+
