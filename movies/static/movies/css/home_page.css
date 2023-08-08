@@ -77,7 +77,6 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    /* background-color: rgba(0, 0, 0, 0.8);  */
     color: #fff; 
     padding: 8px 12px;
     font-size: 25px;
@@ -88,7 +87,6 @@ body {
     display: block;
   }
   
-  /* Adjust the width of each gallery item as needed */
 .image-gallery-item {
     margin-right: 10px; /* Add some space between gallery items */
     display: inline-block;
@@ -126,7 +124,7 @@ body {
     background-color: rgba(50, 50, 50, 0.6); 
     color: white;
     height: 30%; /* Stretch the buttons vertically to cover the whole height of the gallery */
-    width: 50px; /* Optional, adjust as necessary */
+    width: 50px; 
     display: flex;
     align-items: center; /* Vertically center the text */
     justify-content: center; /* Horizontally center the text */
@@ -141,15 +139,13 @@ body {
 
 
 .gallery-button-left {
-    /* Existing styles */
     left: 0;
-    border-top-right-radius: 15px; /* Optional rounded corner */
-    border-bottom-right-radius: 15px; /* Optional rounded corner */
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px; 
 
 }
 
 .gallery-button-right {
-    /* Existing styles */
     right: 0;
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;

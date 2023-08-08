@@ -1,7 +1,6 @@
 .poster_grid {
     display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust the column width and responsiveness */
-    grid-gap: 20px; /* Add some spacing between images */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
     text-align: center; 
     font-family: 'Avenir', sans-serif;
     align-items: center;
@@ -74,8 +73,6 @@ h2 {
     height: 50%; 
     display: block;
     margin-bottom: 10px; 
-    /* border: 2px solid #FFFFFF; */
-
 }
 /* .image-button {
   background: none;
