@@ -8,7 +8,6 @@ from django.views import generic
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout
 from django.core.cache import cache
-import json
 import ast
 from django.db import models
 from django.contrib import messages
