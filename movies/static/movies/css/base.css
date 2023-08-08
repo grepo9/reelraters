@@ -1,28 +1,28 @@
 .fa-user {
-    color: white;
+    color: #ffffff; /* White */
 }
 
 .navbar-expand-lg {
-    background-color: #424242;
+    background-color: #20232a; /* Dark gray background */
 }
 
 .navbar-nav > .active > a {
-    color: white;
+    color: #17a2b8; /* Light blue for active link */
 }
 
 .navbar-nav li a {
-    color: #9E9E9E;
+    color: #ffffff; /* White for inactive links */
 }
 
 .navbar-brand {
-    color: #9E9E9E;
+    color: #ffffff; /* White for brand */
     font-size: 24px;
 }
 
 .navbar-brand:hover {
-    color: #9E9E9E;
+    color: #138496; /* Darker blue on hover */
 }
 
 .navbar-nav .nav-link {
-    font-size: 18px; /* You can adjust this value to make the titles bigger */
+    font-size: 18px;
 }

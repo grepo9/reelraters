@@ -5,9 +5,10 @@ body {
   
 h1 {
     color: #E0E0E0;
-    font-size: 3.5rem; 
+    font-size: 3rem; 
     text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.2);
 }
+
 
 .custom-body {
     background-color: #221e1e;

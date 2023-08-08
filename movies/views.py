@@ -116,18 +116,18 @@ def add_movie(request):
                     "movies/add_movie.html",
                     {"show_rating_modal": True, "selected_movie": created_movie},
                 )
-                modal_content = render_to_string("movies/rate_movie.html", {"selected_movie": created_movie})
+                # modal_content = render_to_string("movies/rate_movie.html", {"selected_movie": created_movie})
 
-                movie_data = {
-                    "title": created_movie.title,
-                    "year": created_movie.year,
-                    "imdb_id": created_movie.imdb_id,
-                    "poster_image_url": created_movie.poster_image_url,
-                    "description": created_movie.description,
-                    "modal_content": modal_content,
+                # movie_data = {
+                #     "title": created_movie.title,
+                #     "year": created_movie.year,
+                #     "imdb_id": created_movie.imdb_id,
+                #     "poster_image_url": created_movie.poster_image_url,
+                #     "description": created_movie.description,
+                #     "modal_content": modal_content,
 
-                }
-                return JsonResponse({"show_rating_modal": True, "selected_movie": movie_data})
+                # }
+                # return JsonResponse({"show_rating_modal": True, "selected_movie": movie_data})
 
             else:
                 messages.warning(request, "Movie already exists in your list.")
@@ -241,7 +241,7 @@ def home_page(request):
         },
     )
 
-
+@login_required
 def add_imdb_movie(request):
     # Extract movie information from the JSON object
     # needs to be double quotes to load

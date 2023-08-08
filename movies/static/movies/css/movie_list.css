@@ -1,7 +1,7 @@
 .poster_grid {
     display: grid; 
-    grid-template-columns: repeat(3,1fr); 
-    grid-gap: 0px; 
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust the column width and responsiveness */
+    grid-gap: 20px; /* Add some spacing between images */
     text-align: center; 
     font-family: 'Avenir', sans-serif;
     align-items: center;
